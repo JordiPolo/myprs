@@ -1,0 +1,10 @@
+[package]
+name = "myprs"
+version = "0.1.0"
+authors = ["Jordi Polo Carres <mumismo@gmail.com>"]
+
+[dependencies]
+hubcaps = "0.2.8"
+hyper = "0.9.8"
+yaml-rust = "*"
+chrono = "0.3"
