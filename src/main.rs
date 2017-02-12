@@ -1,6 +1,5 @@
 extern crate hyper;
 extern crate hubcaps;
-extern crate yaml_rust;
 extern crate chrono;
 
 use hyper::Client;
@@ -30,18 +29,18 @@ fn main() {
 
     println!("Checking PRs in your repos");
     for repo_name in config.repos.iter() {
+        //println!("{:?}",repo_name);
         for pull in pull_requests(&github, repo_name) {
-            let date = chrono::DateTime::parse_from_rfc3339(&pull.updated_at).unwrap().date();
-            let now = chrono::UTC::now().date();
-            let diff = now.signed_duration_since(date);
+             let date = chrono::DateTime::parse_from_rfc3339(&pull.updated_at).unwrap().date();
+             let now = chrono::UTC::now().date();
+             let diff = now.signed_duration_since(date);
 
-            println!("On {}", repo_name);
-            //println!("      {}", pull.title);
-            println!("{}: {}", human_days_ago(diff.num_days()), pull.title);
-            println!("             {}", pull.html_url);
-            println!("             {}", pull.user.login);
-            println!();
-        }
+             println!("On {}", repo_name);
+             println!("{}: {}", human_days_ago(diff.num_days()), pull.title);
+             println!("             {}", pull.html_url);
+             println!("             {}", pull.user.login);
+             println!();
+         }
     }
 
 
