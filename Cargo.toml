@@ -4,7 +4,8 @@ version = "0.1.0"
 authors = ["Jordi Polo Carres <mumismo@gmail.com>"]
 
 [dependencies]
-hubcaps = "0.2.8"
-hyper = "0.9.8"
-chrono = "0.3"
-config = { version = "0.3.0", default-features = false, features = ["yaml"] }
+hubcaps = "0.4.4"
+tokio-core = "*"
+futures = "0.1"
+chrono = "0.4.2"
+config = { version = "0.8.0", default-features = false, features = ["yaml"] }

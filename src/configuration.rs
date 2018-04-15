@@ -1,16 +1,19 @@
-extern crate config;
-
 use std;
+use config::{Config, File, FileFormat};
 
 pub struct Configuration {
     pub repos: Vec<String>,
-    pub access_token: String
+    pub access_token: String,
 }
 
 impl Configuration {
     pub fn new() -> Configuration {
-        config::merge(config::File::new(&filename(), config::FileFormat::Yaml));
-        Configuration {repos: repos_list(), access_token: access_token()}
+        let mut settings = Config::new();
+        settings.merge(File::new(&filename(), FileFormat::Yaml)).unwrap();
+        Configuration {
+            repos: repos_list(&settings),
+            access_token: access_token(&settings),
+        }
     }
 }
 
@@ -21,14 +24,16 @@ fn filename() -> String {
     path.to_str().unwrap().to_owned()
 }
 
-fn access_token() -> String {
-    config::get_str("access_token")
-    .expect("access token not found.")
-    .into_owned()
+fn access_token(settings: &Config) -> String {
+    settings
+        .get::<String>("access_token")
+        .expect("access token not found.")
 }
 
-fn repos_list() -> std::vec::Vec<String> {
-    config::get_slice("repos").expect("repos not found").iter().map(|a| {
-        a.as_str().unwrap().into_owned()
-    }).collect()
+fn repos_list(settings: &Config) -> Vec<String> {
+    settings.get::<Vec<String>>("repos")
+        .expect("repos not found")
+        .iter()
+        .map(|a| a.as_str().to_string())
+        .collect()
 }
